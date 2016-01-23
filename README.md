@@ -1,8 +1,8 @@
 # bk-intro-to-ng2
 
-Ben Kinsey's Intro to Angular2
+Ben Kinsey's Intro to Angular2, reveal.js presentation
 
-Uses reveal.js
+[@bkinsey808](https://twitter.com/bkinsey808)
 
 ### Configuration
 
@@ -932,4 +932,5 @@ Some reveal.js features, like external Markdown and speaker notes, require that 
 
 MIT licensed
 
+Copyright (C) 2016 Ben Kinsey
 Copyright (C) 2016 Hakim El Hattab, http://hakim.se
