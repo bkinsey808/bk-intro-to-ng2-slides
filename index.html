@@ -150,15 +150,49 @@
             </div>
 				  </section>
 
+          
+          <section>
+            <p style="font-size:2em">ng2 uses Zone.js</p>
+            <p>tells ng2 when to run change detection</p>
+            <p>How it works:</p>
+            <div class="fragment">
+              <p class="fragment strike">intercepts all asynchronous events so they map to the same thread local context</p>
+            </div>
+            <p class="fragment">MAGIC!</p>
+            <ul class="fragment">
+              <li><strong>no more digest loop</strong></li>
+              <li>no more $timeout</li>
+            <li>no more $scope.$apply(), ever</li>
+            </ul>
+          </section>
+          
+          <section>
+            <img src="img/ng1-graveyard.png" style="width:500px;">
+          </section>
+
+
+          <section>
+            <img src="img/ng2-perf-1.png" style="width:800px;">
+          </section>
+
+          <section>
+            <img src="img/ng2-perf-2.png" style="width:800px;">
+          </section>
+<!--
+          <section>
+            <img src="img/ng2-perf.png" style="width:900px;">
+          </section>
+-->
+          <section>
+            <img src="img/migrate-from-ng1-to-ng2.png" style="width:900px;">
+          </section>
+          
 				<section>
 					  <p style="font-size:2em">Learn TypeScript!</p>
             <p class="fragment" style="font-size:1em;">(Don't worry, it's awesome)</p>
-            <div class="fragment">
-              <p>collaboration with Microsoft and Google (!)</p>
-              <p>future oriented (many es6 + es7 features)</p>
-              <p>PLUS optional static typing (great for big projects)</p>
-            </div>
-					
+            <div class="fragment">It's just...</div>
+            <div style="font-size:1.5em" class="fragment">ES6 + ES7 + optional static typing</div>
+            <div class="fragment">That's it!!!</div>					
 				</section>
 
         <section>
@@ -212,17 +246,19 @@ bootstrap('App', []);</code></pre>
   <p>&bullet; method parameters</p>
   <p>&bullet; properties</p>
   <p>&bullet; classes</p>
-  <p>In ng2, decorators are typically used to add metadata,
+  <p>Decorators are typically used to add metadata,
     but could also add mixin-like functionalty</p>
 
 </section>
 <section>
-  <p>@Component - tells ng2 that the class defines a component, and also how to process it</p>
-  <ul>
+  <p>@<u>Component</u> - tells ng2 that the class defines a component, and also how to process it</p>
+  <ul style="padding-left:50px">
     <li><u>selector</u> - a css selector (DOM element tag) that tells ng2 to create and insert an instance of this component in the parent HTML</li>
-    <li><u>template</u> - the template string</li>
+    <li style="padding-top:30px"><u>template</u> - the template string</li>
+<!--
     <li><u>directives</u> - an array of the Components or Directives that this template requires</li>
     <li><u>providers</u> - an array of dependency injection providers for services that the component requires</li>
+-->
   </ul>
 
 </section>
