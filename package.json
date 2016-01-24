@@ -1,7 +1,7 @@
 {
-  "name": "bk-intro-to-ng2",
+  "name": "bk-intro-to-ng2-slides",
   "version": "0.0.0",
-  "description": "Ben Kinsey's Intro to Angular2",
+  "description": "Ben Kinsey's Intro to Angular2 slides",
   "main": "js/reveal.js",
   "scripts": {
     "test": "grunt test",
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/bkinsey/bk-intro-to-ng2.git"
+    "url": "git://github.com/bkinsey/bk-intro-to-ng2-slides.git"
   },
   "engines": {
     "node": "~4.1.1"
