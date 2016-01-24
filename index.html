@@ -250,6 +250,8 @@ bootstrap('App', []);</code></pre>
     but could also add mixin-like functionalty</p>
 
 </section>
+
+
 <section>
   <p>@<u>Component</u> - tells ng2 that the class defines a component, and also how to process it</p>
   <ul style="padding-left:50px">
@@ -264,20 +266,117 @@ bootstrap('App', []);</code></pre>
 </section>
 
 <section>
-  <p style="font-size:1.5em">ng2 template syntax</p>
-  <p>[] property binding</p>
-  <p>() event binding</p>
-  <p>[()] two way binding</p>
-  <p>{{}} interpolation</p>
-  <p>* dynamic dom manipulation</p>
-  <p># local variable</p>
-  <p>| pipe</p>
-  
+  <p style="font-size:1.5em">An ng2 app is a tree of components</p>
+  <p class="fragment">A component is self-describing:</p>
+  <ul class="fragment">
+    <li>knows how to interact with its host element.</li>
+    <li>knows how to render itself.
+    <li>configures dependency injection
+    <li>has a well-defined public API of input and output properties.
+  </ul>
+  <p class="fragment">Scope is not inherited down the DOM tree. <u>There is no scope.</u></p>
 </section>
 
-			</div>
+
+<section>
+  <p style="font-size:1.5em">Let's talk Templates</p>
+
+  <p>ng2 templates are compiled at compile time instead of runtime for optimization</p>
+  <p><strong>Key Point:</strong> same syntax for custom and native components</p>
+  <p>explicit syntax makes template easier to refactor without understanding underlying components</p>
+  <p>friendly for tooling (though not much ng2 template tooling has been built yet)</p>
+</section>
+
+
+<section>
+  <p style="text-decoration: underline; font-size:1.2em">What the #*{{|}}*[()] did you do to my HTML?</p>
+  <small class="fragment">calm down, it actually makes a lot of sense</small>
+  <div class="fragment">
+    <p>[] property binding</p>
+    <p>() event binding</p>
+    <p>[()] two way binding</p>
+    <p>{{}} interpolation</p>
+    <p>* template tag (ngIf, ngFor, etc)</p>
+    <p># local variable</p>
+    <p>| pipe</p>
+  </div>
+</section>
+
+
+<section>
+  <p style="font-size:1.5em">The evolution of forms</p>
+
+  <p>ng1 forms rely on the <strong>ng-model</strong> directive</p>
+
+  <p>instantaneous two-way data binding keeps a form control in sync with a view model.</p>
+  <div class="fragment">
+    <p>However, the approach has some disadvantages:</p>
+    <ul>
+      <li>everything is mutable</li>
+      <li>strange, unintended side-effects if same model is used elsewhere</li>
+      <li>validation logic often contaminates templates</li>
+      <li>form testing must be end-to-end because forms are implemented directly as DOM.</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+
+  
+  
+  <div style="float: left; width: 50%">
+    <u>Template-based forms</u>
+    <ul style="font-size:.8em">
+      <li>quick and easy, similar to ng1 forms</li>
+      <li>simpler, easier, and similar to ng1 forms</li>
+      <li>Can be implemented with very little component code</li>
+      <li>Hard to unit test</li>
+      <li>allows validation logic to infest the template (bad!)</li>
+      <li>does not work with immutable objects</li>
+      <li>everything is mutable, almost diametric opposite of redux pattern</li>
+    </ul>
+  </div>
+  <div style="float: right; width: 50%">
+    <u>Model-based forms</u>
+    <ul style="font-size:.8em">
+      <li>best practice for advanced use cases</li>
+      <li>more complex and very different from ng1 forms</li>
+      <li>requires non-trivial component code</li>
+      <li>validation logic must be in the component code (good!)</li>
+      <li>works with immutable objects</li>
+      <li>state is now easier to centralize and manage, making redux pattern possible</li>
+      <li class="fragment"><u>form and controls are observables leading to modern FRP (functional reactive programming) patterns</u></li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <img src="img/everything-is-a-stream.jpeg" style="width:700px;">
+</section>
+
+<section>
+
+</section>
+<section>
+
+</section>
+<section>
+
+</section>
+<section>
+
+</section>
+
+
+
+</div>
+
+
+
 
 		</div>
+
+
 
 		<script src="lib/js/head.min.js"></script>
 		<script src="js/reveal.js"></script>
