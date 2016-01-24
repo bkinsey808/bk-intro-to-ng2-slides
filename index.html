@@ -355,7 +355,23 @@ bootstrap('App', []);</code></pre>
 </section>
 
 <section>
+  <img src="img/compose-all-the-events.jpeg" style="width:700px;">
+</section>
 
+<section>
+  <p style="font-size:1.5em">Ready for the Rx Revolution?</p>
+  <p>in ng1 promises were prevalent, in ng2 it will be observables.</p>
+  <div class="fragment">
+    <p>observables have advantage over promises:</p>
+    <ul>
+      <li>disposability (can be canceled before completed)</li>
+      <li>lazy (will not get evaluated unless subscribed)</li>
+      <li>re-usable (can be subscribed to and unsubscribed to multiple times)</li>
+      <li>returns a stream of values, like an array but async</li>
+      <li>can handle backpressure</li>
+      <li>much better suited for real world client-server communication than promises</li>
+    </ul>
+  </div>
 </section>
 <section>
 
