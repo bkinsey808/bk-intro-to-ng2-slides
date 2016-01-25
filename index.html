@@ -322,10 +322,9 @@ bootstrap('App', []);</code></pre>
 
 <section>
 
-  
-  
+    
   <div style="float: left; width: 50%">
-    <u>Template-based forms</u>
+    <u>Template-driven forms</u>
     <ul style="font-size:.8em">
       <li>quick and easy, similar to ng1 forms</li>
       <li>simpler, easier, and similar to ng1 forms</li>
@@ -351,6 +350,31 @@ bootstrap('App', []);</code></pre>
 </section>
 
 <section>
+  <p style="font-size:1.3em">What's an Observable and why is it a big deal?</p>
+  <p style="margin-top:60px">Function types in es7/es2016
+  <table>
+    <tr>
+      <th></th>
+      <th>Synchronous</th>
+      <th>Asynchronous</th>
+    </tr>
+    <tr>
+      <th>function</th>
+      <td>T</td>
+      <td>Promise</td>
+    </tr>
+    <tr>
+      <th>function*</th>
+      <td>Iterator</td>
+      <td><span class="fragment">Observable?</span></td>
+    </tr>
+    <tr>
+    </tr>
+  </table>
+</section>
+
+
+<section>
   <img src="img/everything-is-a-stream.jpeg" style="width:700px;">
 </section>
 
@@ -373,24 +397,213 @@ bootstrap('App', []);</code></pre>
     </ul>
   </div>
 </section>
+
 <section>
 
+  <p>Template-driven Form Example Template</p>
+  <pre><code data-noescape>&lt;form #f="form"
+      (ng-submit)="onSubmitTemplateBased()">
+  &lt;label>First Name:&lt;/label>
+    &lt;input type="text"
+         ng-control="firstName" 
+         [(ng-model)]="vm.firstName" required>
+  &lt;label>Password:&lt;/label>
+  &lt;input type="password"
+         ng-control="password" 
+         [(ng-model)]="vm.password" required>
+  &lt;button type="submit"
+          [disabled]="!f.valid">
+    Submit
+  &lt;/button>
+&lt;/form></code></pre>
 </section>
+
 <section>
-
+  <p>Model-based Form Example Template</p>
+  <pre><code data-noescape>&lt;form [ng-form-model]="form"
+      (ng-submit)="onSubmitModelBased()">
+  &lt;label>First Name:&lt;/label>
+  &lt;input type="text"
+         ng-control="firstName">
+  &lt;label>Password:&lt;/label>
+  &lt;input type="password"
+         ng-control="password">
+  &lt;button type="submit"
+          [disabled]="!form.valid">
+    Submit
+  &lt;/button>
+&lt;/form></code></pre>
 </section>
+
 <section>
+  <p>Template-driven Form Example Component</p>
+<pre><code data-noescape>@Component({
+  selector: "template-driven-form",
+  templateUrl: 'template-driven-form.html',
+  directives: [FORM_DIRECTIVES]
+})
+export class TemplateDrivenFormComponent {
+  vm: Object = {};
+  onSubmitTemplateBased() {
+    console.log(this.vm);
+  }
+}</code></pre>
+</section>
+
+<section>
+  <p>Template-driven Form Example Component</p>
+  <div style="font-size:.8em">
+<pre><code data-noescape>@Component({
+  selector: "model-driven-form",
+  templateUrl: 'model-driven-form.html',
+  directives: [FORM_DIRECTIVES]
+})
+export class ModelDrivenFormComponent {
+  form: ControlGroup;
+  firstName: Control = new Control("", Validators.required);
+  constructor(fb: FormBuilder) {
+    this.form = fb.group({
+      "firstName": this.firstName,
+      "password": ["", Validators.required]
+    });
+  }
+  onSubmitModelBased() {
+    console.log(this.form);
+  }
+}</code></pre></div>
+</section>
+
+<section>
+  <p>Now comes the fun part.</p>
+  <p>This is FRP (Functional Reactive Programming)</p>
+<pre><code data-noescape>this.form.valueChanges
+.map((value) => {
+  value.firstName = value.firstName.toUpperCase();
+  return value;
+})
+.filter((value) => this.form.valid)
+.subscribe((value) => {
+  alert("View Model = " + JSON.stringify(value));
+});</code></pre>
+</section>
+
+<section>
+  ng2's http.get() returns an observable
+  <div style="float:left; width:50%">
+<pre><code data-noescape>getTasks() {
+  return this.http
+  .get('/api/v1/tasks.json')
+  .map( (responseData) => {
+    return responseData.json();
+  })
+  .map((tasks: Array<any>) => {
+    let result:Array<Task> = [];
+    if (tasks) {
+      tasks.forEach((task) => {
+        result.push(</code></pre></div>
+
+<div style="float:right; width:50%">
+<pre><code data-noescape>        new Task(
+          task.id, 
+          task.description,
+          task.dueDate,
+          task.complete));
+        });
+      }
+      return result;
+    });
+  }
+}</code></pre></div>
 
 </section>
 
 
+
+<section>
+  <p>This is a service that wraps an observable</p>
+  <div style="font-size:0.9em">
+    <pre><code data-noescape>@Injectable()
+export class WikipediaService {
+ constructor(
+   private jsonp: Jsonp) {}
+ search (term: string) {
+    var search = new URLSearchParams()
+    search.set('action', 'opensearch');
+    search.set('search', term);
+    search.set('format', 'json');
+    return this.jsonp
+    .get('http://en.wikipedia.org/w/api.php?callback=JSONP_CALLBACK', {
+      search
+    })
+    .map((response) =>
+      response.json()[1]);
+  }
+}</code></pre></div>
+</section>
+
+
+
+<section>
+  <p>Search-as-you-type powered by observables</p>
+  <div style="float:left; width:50%; font-size:0.8em">
+    <pre><code data-noescape>@Component({
+  selector: 'wikipedia-search',
+  providers: [WikipediaService],
+  template: `
+    &lt;div>
+      &lt;h2>Wikipedia Search&lt;/h2>
+        &lt;input
+          type="text"
+          [ngFormControl]="term">
+      &lt;ul>
+        &lt;li *ngFor="#item of items 
+                    | async">
+        &lt;/li>
+      &lt;/ul>
+    &lt;/div>
+  `
+})</code></pre></div><div style="float:right; width:50%; font-size:0.8em"><pre><code data-noescape>export class WikipediaSearchComponent {
+  items: Observable&lt;Array&lt;string>>;
+  term = new Control();
+  constructor(
+    private wikipediaService:
+      WikipediaService) {
+      this.items =
+        this.term.valueChanges
+        .debounceTime(400)
+        .distinctUntilChanged()
+        .switchMap(term =>
+          this.wikipediaService
+          .search(term));
+  }
+}</code></pre></div>
+</section>      
+
+<section>
+<p style="font-size:1.3em">A taste of learning about Rx instance operators</p>
+
+<p>With flatMap, the search results could be stale, because search responses may come back out of order. To fix this, switchMap should be used, since it ensures that an old observable is unsubscribed once a newer one is provided.</p>
+
+<p>So, in summary, flatMap should be used when all results matter, regardless of their timing, and switchMap should be used when only results from the last Observable matter.</p>
+</section>
+
+<section>
+<p style="font-size:1.3em">The stateful <u>AsyncPipe</u></p>
+
+<p>The Async pipe can receive a Promise or Observable as input and subscribe to the input automatically, eventually returning the emitted value(s).</p>
+
+<p>It is stateful because the pipe maintains a subscription to the input and its returned values depend on that subscription.</p>
+</section>
+
+<section>
+  <p style="font-size:1.3em">Bottom Line:</p>
+  <p>ng2 plus Rx pushes the state-of-the-art dramatically.</p>
+  <p>It's never been easier to write powerful, responsive UI.</p>
+  <p>Hopefully, this presentation has given you a little glimpse into emerging patterns that I predict will become well-used in this field in the future.</p>
+</section>
 
 </div>
-
-
-
-
-		</div>
+</div>
 
 
 
