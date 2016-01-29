@@ -186,7 +186,17 @@
           <section>
             <img src="img/migrate-from-ng1-to-ng2.png" style="width:900px;">
           </section>
-          
+
+        <section>
+  			  <p style="font-size:2em">ng2 is engineered to be Opinionated</p>
+          <p>Even more opinionated than ng1, and ng1 was considered a relatively opinionated framework</p>
+          <p>Why is Opionated a Good Thing?</p>
+          <div class="fragment">
+          <p>Angular community includes 1.1 million active developers</p>
+          <p>Massive scale community consensus and synergy</p>
+          </div>
+        </section>
+
 				<section>
 					  <p style="font-size:2em">Learn TypeScript!</p>
             <p class="fragment" style="font-size:1em;">(Don't worry, it's awesome)</p>
@@ -276,6 +286,25 @@ bootstrap('App', []);</code></pre>
   </ul>
   <p class="fragment">Scope is not inherited down the DOM tree. <u>There is no scope.</u></p>
 </section>
+
+<section>
+  <p style="font-size:1.5em"><u>The evolution of Dependency Injection</u></p>
+<div style="float:left; width:50%">
+ng1 uses quoted strings:  
+<pre><code data-noescape>  ['a', 'b', function(a, b) {..}]</code></pre>
+This is necessary, because under the hood, a simple object in ng1 is used to store the name value pairs of each dependency:
+<pre><code data-noescape>  di = {'a': a, 'b': b}</code></pre>
+</div>
+<div class="fragment" style="float:right; width:50%">
+
+On the other hand, in ng2, dependency injection is implemented as an es6 Map(), 
+which can take objects, function, etc as keys, not just simple strings.
+<pre><code data-noescape> di = new Map()</code></pre>
+The end result is that in ng2 dependencies can be modeled as a simple array:
+<pre><code data-noescape>  providers: [a, b]</code></pre>
+</div>
+</section>
+
 
 
 <section>
@@ -397,7 +426,7 @@ bootstrap('App', []);</code></pre>
     </ul>
   </div>
 </section>
-
++
 <section>
 
   <p>Template-driven Form Example Template</p>
