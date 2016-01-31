@@ -82,7 +82,7 @@
                 <th>es5</th>
               </tr>
               <tr class="fragment">
-                <th>beta.1</th>
+                <th>beta.2</th>
                 <th class="vs-column">version</th>
                 <th>0.15</th>
               </tr>
@@ -288,16 +288,25 @@ bootstrap('App', []);</code></pre>
 </section>
 
 <section>
+  <p style="font-size:1.5em">What's up with Dependency Injection?</p>
+  <p>"Don't call me, I'll call you"</p>
+  <p>The technical name for this is "Inversion of Control"</p>
+  <p>ng2, like ng1, controls how dependencies get injected into your custom code</p>
+  <p>This is a design pattern that increases modularity and extensibility<p>
+</section>
+
+<section>
   <p style="font-size:1.5em"><u>The evolution of Dependency Injection</u></p>
-<div style="float:left; width:50%">
+<div class="fragment" style="float:left; width:50%">
 ng1 uses quoted strings:  
 <pre><code data-noescape>  ['a', 'b', function(a, b) {..}]</code></pre>
-This is necessary, because under the hood, a simple object in ng1 is used to store the name value pairs of each dependency:
+This is necessary, because under the hood, a simple object in ng1 is used to store the
+name-value (token-object) pairs of each dependency:
 <pre><code data-noescape>  di = {'a': a, 'b': b}</code></pre>
 </div>
 <div class="fragment" style="float:right; width:50%">
 
-On the other hand, in ng2, dependency injection is implemented as an es6 Map(), 
+In ng2, dependency injection is implemented as an es6 Map(), 
 which can take objects, function, etc as keys, not just simple strings.
 <pre><code data-noescape> di = new Map()</code></pre>
 The end result is that in ng2 dependencies can be modeled as a simple array:
@@ -305,6 +314,73 @@ The end result is that in ng2 dependencies can be modeled as a simple array:
 </div>
 </section>
 
+<section>
+  <p style="font-size:1.5em">What is a <u>Provider</u>?</p>
+  <p class="fragment">an instruction that describes how an
+    object for a certain token is created</p>
+<div class="fragment">  
+  <p>In ng2 there are two ways to inject an object (typically a service)
+    so that it can be used by a component:</p>
+
+  <pre><code data-noescape>// at bootstrap
+bootstrap(AppComponent, [DataService]);
+
+// in a component
+@Component({
+  ...
+  providers: [DataService]
+})
+class AppComponent {
+  constructor(dataService: DataService) {
+    // dataService instanceof DataService === true
+  }
+}
+  </code></pre>  
+  </div>
+</section>
+
+<section>
+  <p style="font-size:1.5em"><u>Multi Providers</u>: ng2 pluggable hooks</p>
+  <p class="fragment">can provide multiple tokens</p>
+  <div class="fragment">
+  <p>can also be used to extend...</p>
+<pre><code data-noescape>class Engine { }
+class TurboEngine { }
+
+var injector = Injector.resolveAndCreate([
+  provide(Engine, {useClass: Engine}),
+  provide(Engine, {useClass: TurboEngine})
+]);
+
+var engine = injector.get(Engine);
+// engine instanceof TurboEngine</code></pre>
+</div>
+</section>
+
+<section>
+  <p>ng2 encourages "composition over inheritance"</p>
+  <p class="fragment" style="font-size:2em">Last token WINS</p>
+  <p class="fragment">...a very nice feature to implement a pluggable interface that can be extended from the outside world</p>
+  <p class="fragment">...including ng2 platform directives</p>
+</section>
+
+<section>
+  <p style="font-size:1.3em">Wait... did you say <u>Directives?</u></p>
+  <p class="fragment">Directives are classes which get instantiated as a response to a particular DOM structure</p>
+  <p class="fragment">By controlling the DOM structure, what directives are imported, and their selectors, the developer can use the "composition pattern"</p>
+<p class="fragment">using simple objects to build complex ones.</p>
+
+<p class="fragment">Directives are the cornerstone of an Angular application.</p>
+<p class="fragment">Directives allow the developer to turn HTML into a DSL and then control the application assembly process.</p>
+  
+</section>
+
+<section>
+  <p style="font-size:1.3em"><u>ng2 directives</u></p>
+  <p>Directives are instantiated whenever the CSS selector matches the DOM structure.</p>
+  <p>@Component is a special kind of @Directive that matches the tag selector</p>
+  <p>@Directive is used when matching any other css selector (e.g. custom tooltip attribute)</p>
+</section>
 
 
 <section>
@@ -312,8 +388,14 @@ The end result is that in ng2 dependencies can be modeled as a simple array:
 
   <p>ng2 templates are compiled at compile time instead of runtime for optimization</p>
   <p><strong>Key Point:</strong> same syntax for custom and native components</p>
-  <p>explicit syntax makes template easier to refactor without understanding underlying components</p>
   <p>friendly for tooling (though not much ng2 template tooling has been built yet)</p>
+</section>
+
+<section>
+  <p style="font-size:1.5em">Explicit Template Syntax</p>
+  <p>makes template easier to refactor without understanding underlying components</p>
+  <p>for example, *ngIf and *ngFor cannot be combined in same element, therefore there is no need for
+    the concept of "directive priority"</p>
 </section>
 
 
@@ -426,7 +508,7 @@ The end result is that in ng2 dependencies can be modeled as a simple array:
     </ul>
   </div>
 </section>
-+
+
 <section>
 
   <p>Template-driven Form Example Template</p>
