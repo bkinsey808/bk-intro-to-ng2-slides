@@ -54,8 +54,9 @@
             Angular2 aka <a href="angular.io">angular.io</a> aka ng2 aka Angular
           </h3>
           <p>(as opposed to AngularJS which refers to Angular1)</p>
-					<p>
-						Ben Kinsey <a href="http://twitter.com/bkinsey808">@bkinsey808</a>
+					<p>Ben Kinsey <a href="http://twitter.com/bkinsey808">@bkinsey808</a></p>
+            
+          <p>Github Demo Project: <a href="https://github.com/bkinsey808/bk-ng2-ultra">github.com/bkinsey808/bk-ng2-ultra</a></p> 
 					</p>
 				</section>
 
@@ -201,8 +202,8 @@
 					  <p style="font-size:2em">Learn TypeScript!</p>
             <p class="fragment" style="font-size:1em;">(Don't worry, it's awesome)</p>
             <div class="fragment">It's just...</div>
-            <div style="font-size:1.5em" class="fragment">ES6 + ES7 + optional static typing</div>
-            <div class="fragment">That's it!!!</div>					
+            <div style="font-size:1.5em" class="fragment">ES6 + ES* + optional static typing</div>
+            <div class="fragment">That's it!!!</div>
 				</section>
 
         <section>
@@ -307,7 +308,7 @@ name-value (token-object) pairs of each dependency:
 <div class="fragment" style="float:right; width:50%">
 
 In ng2, dependency injection is implemented as an es6 Map(), 
-which can take objects, function, etc as keys, not just simple strings.
+which can take objects, functions, etc as keys, not just simple strings.
 <pre><code data-noescape> di = new Map()</code></pre>
 The end result is that in ng2 dependencies can be modeled as a simple array:
 <pre><code data-noescape>  providers: [a, b]</code></pre>
@@ -334,8 +335,7 @@ class AppComponent {
   constructor(dataService: DataService) {
     // dataService instanceof DataService === true
   }
-}
-  </code></pre>  
+}</code></pre>  
   </div>
 </section>
 
